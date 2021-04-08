@@ -1,25 +1,42 @@
-import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import RePigionProvider from './lib';
+import Reducer from './components/reducer';
+import Increment from './components/increment';
+import Decrement from './components/decrement';
+import Amount from './components/amount';
+import Content from './components/content';
+import Title from './components/title';
+
+const combineReducers = (reducers: any) => {
+  return (state: any = {}, action: any) => {
+    console.log(state);
+    const newState: any = {};
+    Object.keys(reducers).forEach((reducerKey: string) => {
+      const reducerFunction = reducers[reducerKey];
+      const reducerState = state[reducerKey];
+      newState[reducerKey] = reducerFunction(reducerState, action);
+    });
+    return newState;
+  };
+};
+
+const counter = (state: any, action: any) => {
+  return state || {};
+};
+
+const input = (state: any, action: any) => {
+  return state || {};
+};
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <RePigionProvider reducer={combineReducers({ counter, input })}>
+      <Increment />
+      <Amount />
+      <Decrement />
+      <Title />
+      <Content />
+    </RePigionProvider>
   );
 }
 
