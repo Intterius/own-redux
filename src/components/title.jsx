@@ -1,7 +1,7 @@
 import { usePigeonContext } from '../lib/use-context';
 
 function Title() {
-  const { state:{title}, dispatch } = usePigeonContext();
+  const { state:{input:{title}}, dispatch } = usePigeonContext();
 
 
  

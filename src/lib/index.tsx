@@ -7,9 +7,8 @@ const RePigionProvider = ({
   children,
   reducer,
 }: IRePigionProviderProps): ReactElement => {
-  
-  const [state, dispatch] = useReducer(reducer,()=> reducer({}, { type: 'INIT' }));
-
+  const value = reducer({},{type:''})
+  const [state, dispatch] = useReducer(reducer,value);
   return <Provider value={{ state, dispatch }}>{children}</Provider>;
 };
 

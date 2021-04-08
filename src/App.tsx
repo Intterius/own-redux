@@ -1,6 +1,5 @@
 import './App.css';
 import RePigionProvider from './lib';
-import Reducer from './components/reducer';
 import Increment from './components/increment';
 import Decrement from './components/decrement';
 import Amount from './components/amount';
@@ -9,7 +8,6 @@ import Title from './components/title';
 
 const combineReducers = (reducers: any) => {
   return (state: any = {}, action: any) => {
-    console.log(state);
     const newState: any = {};
     Object.keys(reducers).forEach((reducerKey: string) => {
       const reducerFunction = reducers[reducerKey];
@@ -20,12 +18,44 @@ const combineReducers = (reducers: any) => {
   };
 };
 
-const counter = (state: any, action: any) => {
-  return state || {};
+const counter = (state: any = { amount: 0 }, action: any) => {
+  switch (action.type) {
+    case 'INCREMENT':
+      console.log(state);
+      return {
+        ...state,
+        amount: state.amount + 1,
+      };
+      case 'DECREMENT': {
+      console.log(state);
+      return {
+        ...state,
+        amount: state.amount - 1,
+      };
+    }
+    default:
+      return state;
+  }
 };
 
-const input = (state: any, action: any) => {
-  return state || {};
+const input = (state: any = { title: '', content: '' }, action: any) => {
+  switch (action.type) {
+    case 'TITLE':
+      console.log(state)
+      return {
+        ...state,
+        title: action.payload,
+      };
+      case 'CONTENT': {
+      console.log(state)
+      return {
+        ...state,
+        content: action.payload,
+      };
+    }
+    default:
+      return state;
+  }
 };
 
 function App() {

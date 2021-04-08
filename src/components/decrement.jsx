@@ -1,10 +1,7 @@
-import { useContext } from 'react';
-import { repigionContext } from '../lib';
 import { usePigeonContext } from '../lib/use-context';
 
 function Decrement() {
-  // const { dispatch } = usePigeonContext();
-  const { dispatch } = useContext(repigionContext);
+  const { dispatch } = usePigeonContext();
   
   return (
     <button onClick={() => dispatch({ type: 'DECREMENT' })}>DECREMENT</button>
