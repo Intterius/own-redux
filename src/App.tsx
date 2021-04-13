@@ -5,29 +5,30 @@ import Decrement from './components/decrement';
 import Amount from './components/amount';
 import Content from './components/content';
 import Title from './components/title';
+import { IAction, IState } from './lib/types';
 
-const combineReducers = (reducers: any) => {
-  return (state: any = {}, action: any) => {
-    const newState: any = {};
+const combineReducers = (reducers:any) => {
+  return (state: IState, action: IAction): IState => {
+    const newState: IState = {};
     Object.keys(reducers).forEach((reducerKey: string) => {
       const reducerFunction = reducers[reducerKey];
       const reducerState = state[reducerKey];
+     console.log(state)
       newState[reducerKey] = reducerFunction(reducerState, action);
     });
+  ;
     return newState;
   };
 };
 
-const counter = (state: any = { amount: 0 }, action: any) => {
+const counter = (state = { amount: 0 }, action: IAction) => {
   switch (action.type) {
     case 'INCREMENT':
-      console.log(state);
       return {
         ...state,
         amount: state.amount + 1,
       };
-      case 'DECREMENT': {
-      console.log(state);
+    case 'DECREMENT': {
       return {
         ...state,
         amount: state.amount - 1,
@@ -38,16 +39,14 @@ const counter = (state: any = { amount: 0 }, action: any) => {
   }
 };
 
-const input = (state: any = { title: '', content: '' }, action: any) => {
+const input = (state = { title: '', content: '' }, action: IAction) => {
   switch (action.type) {
     case 'TITLE':
-      console.log(state)
       return {
         ...state,
         title: action.payload,
       };
-      case 'CONTENT': {
-      console.log(state)
+    case 'CONTENT': {
       return {
         ...state,
         content: action.payload,
