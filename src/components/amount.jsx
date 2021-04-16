@@ -1,7 +1,9 @@
 import { usePigeonContext } from '../lib/use-context';
 
 function Amount() {
-  const { state:{counter:{amount}} } = usePigeonContext();
+  const {
+    state: { counter:{amount} },
+  } = usePigeonContext();
   return <p>{amount}</p>;
 }
 

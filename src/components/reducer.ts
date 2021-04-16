@@ -1,6 +1,6 @@
 import { IAction } from '../lib/types';
 
-const Reducer = (state: any, action: IAction) => {
+const Reducer = (state: any, action: any) => {
   switch (action.type) {
     case 'INCREMENT':
       return {
@@ -12,16 +12,16 @@ const Reducer = (state: any, action: IAction) => {
         ...state,
         amount: state.amount--,
       };
-      case 'TITLE': 
-      return{
+    case 'TITLE':
+      return {
         ...state,
-        title: action.payload
-      }
-    case 'CONTENT': 
-    return{
-      ...state,
-      content: action.payload
-    }
+        title: action.payload,
+      };
+    case 'CONTENT':
+      return {
+        ...state,
+        content: action.payload,
+      };
     default:
       return state;
   }
