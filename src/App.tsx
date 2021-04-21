@@ -5,15 +5,12 @@ import Decrement from './components/decrement';
 import Amount from './components/amount';
 import Content from './components/content';
 import Title from './components/title';
-import { IAction } from './lib/types';
+import { IAction, IReducer } from './lib/types';
 
-const combineReducers = <
-  T extends {
-    [key: string]: (state: any, action: IAction) => typeof state;
-  }
->(
-  reducers: T
-) => (state: T, action: IAction) => {
+const combineReducers = <T extends IReducer>(reducers: T) => (
+  state: T,
+  action: IAction
+) => {
   const result: { [K in keyof T]: ReturnType<T[K]> } = {} as any;
 
   for (let key in reducers) {
@@ -24,7 +21,7 @@ const combineReducers = <
 
 const counter = (
   state: { amount: number } = { amount: 0 },
-  action: IAction
+  action: any
 ): { amount: number } => {
   switch (action.type) {
     case 'INCREMENT':
@@ -63,6 +60,7 @@ const input = (
   }
 };
 
+
 const reducers = { counter, input };
 const rootReducers = combineReducers<typeof reducers>(reducers);
 export type AppState = ReturnType<typeof rootReducers>;
@@ -80,5 +78,3 @@ function App() {
 }
 
 export default App;
-
-//uSE sEELECTOR
