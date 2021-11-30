@@ -5,49 +5,51 @@ import Decrement from './components/decrement';
 import Amount from './components/amount';
 import Content from './components/content';
 import Title from './components/title';
+import { IAction, IReducer } from './lib/types';
 
-const combineReducers = (reducers: any) => {
-  return (state: any = {}, action: any) => {
-    const newState: any = {};
-    Object.keys(reducers).forEach((reducerKey: string) => {
-      const reducerFunction = reducers[reducerKey];
-      const reducerState = state[reducerKey];
-      newState[reducerKey] = reducerFunction(reducerState, action);
-    });
-    return newState;
-  };
+const combineReducers = <T extends IReducer>(reducers: T) => (
+  state: T,
+  action: IAction
+) => {
+  const result: { [K in keyof T]: ReturnType<T[K]> } = {} as any;
+
+  for (let key in reducers) {
+    result[key] = reducers[key]?.(state[key], action);
+  }
+  return result;
 };
 
-const counter = (state: any = { amount: 0 }, action: any) => {
+const counter = (
+  state: { amount: number } = { amount: 0 },
+  action: any
+): { amount: number } => {
   switch (action.type) {
     case 'INCREMENT':
-      console.log(state);
       return {
         ...state,
         amount: state.amount + 1,
       };
-      case 'DECREMENT': {
-      console.log(state);
+    case 'DECREMENT':
       return {
         ...state,
         amount: state.amount - 1,
       };
-    }
     default:
       return state;
   }
 };
 
-const input = (state: any = { title: '', content: '' }, action: any) => {
+const input = (
+  state = { title: '', content: '' },
+  action: any
+): { title: string; content: string } => {
   switch (action.type) {
     case 'TITLE':
-      console.log(state)
       return {
         ...state,
         title: action.payload,
       };
-      case 'CONTENT': {
-      console.log(state)
+    case 'CONTENT': {
       return {
         ...state,
         content: action.payload,
@@ -58,9 +60,14 @@ const input = (state: any = { title: '', content: '' }, action: any) => {
   }
 };
 
+
+const reducers = { counter, input };
+const rootReducers = combineReducers<typeof reducers>(reducers);
+export type AppState = ReturnType<typeof rootReducers>;
+
 function App() {
   return (
-    <RePigionProvider reducer={combineReducers({ counter, input })}>
+    <RePigionProvider reducer={rootReducers}>
       <Increment />
       <Amount />
       <Decrement />
